@@ -1,7 +1,6 @@
 #ifndef BSAPACKERWORKER_H
 #define BSAPACKERWORKER_H
 
-#include "bsapacker_global.h"
 #include <bsapacker/ISettingsService.h>
 #include <bsapacker/IModDtoFactory.h>
 #include <bsapacker/IArchiveBuilderFactory.h>
@@ -12,7 +11,7 @@
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT BsaPackerWorker
+	class BsaPackerWorker
 	{
 	public:
 		BsaPackerWorker(

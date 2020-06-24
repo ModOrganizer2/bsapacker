@@ -2,8 +2,9 @@
 
 namespace BsaPacker
 {
-	void ArchiveAutoService::CreateBSA(libbsarch::bs_archive_auto* archive, const QString& archiveName, const bsa_archive_type_e type) const
+	void ArchiveAutoService::CreateBSA(BSArchiveAuto* archive, const QString& archiveName, const bsa_archive_type_e type) const
 	{
-		archive->save_to_disk(archiveName.toStdString());
+		archive->create(archiveName, type);
+		archive->save();
 	}
 } // namespace BsaPacker

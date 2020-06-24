@@ -1,7 +1,7 @@
 #ifndef ARCHIVEBUILDERFACTORY_H
 #define ARCHIVEBUILDERFACTORY_H
 
-#include "bsapacker_global.h"
+
 #include <bsapacker/IArchiveBuilderFactory.h>
 #include <bsapacker/IArchiveBuilder.h>
 #include <bsapacker/IArchiveBuilderHelper.h>
@@ -10,10 +10,10 @@
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT ArchiveBuilderFactory : public IArchiveBuilderFactory
+	class ArchiveBuilderFactory : public IArchiveBuilderFactory
 	{
 	public:
-		ArchiveBuilderFactory(const IArchiveBuilderHelper* archiveBuilderHelper);
+		explicit ArchiveBuilderFactory(const IArchiveBuilderHelper* archiveBuilderHelper);
 		~ArchiveBuilderFactory() override = default;
 		ArchiveBuilderFactory(const ArchiveBuilderFactory&) = delete;
 		ArchiveBuilderFactory& operator=(const ArchiveBuilderFactory&) = delete;

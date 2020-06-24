@@ -5,15 +5,13 @@
 #include <QApplication>
 #include <QDebug>
 
-using namespace libbsarch;
-
 namespace BsaPacker
 {
-	TexturelessArchiveBuilder::TexturelessArchiveBuilder(const IArchiveBuilderHelper* archiveBuilderHelper, const QDir& rootDir, const bsa_archive_type_t& type)
+	TexturelessArchiveBuilder::TexturelessArchiveBuilder(const IArchiveBuilderHelper* archiveBuilderHelper, const QDir& rootDir)
 		: m_ArchiveBuilderHelper(archiveBuilderHelper), m_RootDirectory(rootDir)
 	{
 		this->m_Cancelled = false;
-		this->m_Archive = std::make_unique<libbsarch::bs_archive_auto>(type);
+		this->m_Archive = std::make_unique<BSArchiveAuto>(this->m_RootDirectory.path());
 	}
 
 	uint32_t TexturelessArchiveBuilder::setFiles()
@@ -35,7 +33,7 @@ namespace BsaPacker
 			}
 
 			const QString& filepath = iterator.next();
-			const bool ignored = this->m_ArchiveBuilderHelper->isFileIgnorable(filepath.toStdWString(), rootDirFiles);
+			const bool ignored = this->m_ArchiveBuilderHelper->isFileIgnorable(filepath, rootDirFilenames);
 
 			Q_EMIT this->valueChanged(++count);
 			if (ignored || filepath.endsWith(".dds", Qt::CaseInsensitive)) {
@@ -49,23 +47,23 @@ namespace BsaPacker
 			this->m_Archive->add_file_from_disk(fileBlob);
 			qDebug() << "file is: " << filepath;
 		}
-		this->m_Archive->set_compressed(!static_cast<bool>(incompressibleFiles));
+		this->m_Archive->setCompressed(!static_cast<bool>(incompressibleFiles));
 		return incompressibleFiles + compressibleFiles;
 	}
 
 	void TexturelessArchiveBuilder::setShareData(const bool value)
 	{
-		this->m_Archive->set_share_data(value);
+		this->m_Archive->setShareData(value);
 	}
 
-	std::unique_ptr<libbsarch::bs_archive_auto> TexturelessArchiveBuilder::getArchive()
+	std::unique_ptr<BSArchiveAuto> TexturelessArchiveBuilder::getArchive()
 	{
 		return std::move(this->m_Archive);
 	}
 
 	uint32_t TexturelessArchiveBuilder::getFileCount() const
 	{
-		return this->m_ArchiveBuilderHelper->getFileCount(this->m_RootDirectory.path().toStdWString());
+		return this->m_ArchiveBuilderHelper->getFileCount(this->m_RootDirectory);
 	}
 
 	QString TexturelessArchiveBuilder::getRootPath() const

@@ -1,16 +1,17 @@
 #ifndef HIDELOOSEASSETSERVICE_H
 #define HIDELOOSEASSETSERVICE_H
 
-#include "bsapacker_global.h"
 #include <bsapacker/IHideLooseAssetService.h>
 #include <bsapacker/ISettingsService.h>
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT HideLooseAssetService : public IHideLooseAssetService
+	class HideLooseAssetService : public IHideLooseAssetService
 	{
 	public:
+		HideLooseAssetService() = default;
 		HideLooseAssetService(const ISettingsService* settingsService);
+		~HideLooseAssetService() override = default;
 		bool HideLooseAssets(const QDir& modDirectory) const override;
 
 	private:

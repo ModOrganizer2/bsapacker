@@ -1,14 +1,13 @@
 #ifndef FALLOUT4DUMMYPLUGINSERVICE_H
 #define FALLOUT4DUMMYPLUGINSERVICE_H
 
-#include "bsapacker_global.h"
 #include <bsapacker/IDummyPluginLogic.h>
 #include <bsapacker/IDummyPluginService.h>
 #include <bsapacker/IFileWriterService.h>
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT Fallout4DummyPluginService : public IDummyPluginService
+	class Fallout4DummyPluginService : public IDummyPluginService
 	{
 	public:
 		Fallout4DummyPluginService(const IFileWriterService* fileWriterService,

@@ -1,7 +1,7 @@
 #include <bsapacker/ArchiveBuilderHelper.h>
 
-#include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include <QDirIterator>
+#include <QtConcurrent/QtConcurrentMap>
 
 #include "SettingsService.h"
 
@@ -21,32 +21,34 @@ namespace BsaPacker
 		: m_SettingsService(settingsService)
 	{
 	}
-	uint32_t ArchiveBuilderHelper::getFileCount(const path& rootDirectory) const
+	uint32_t ArchiveBuilderHelper::getFileCount(const QDir& rootDirectory) const
 	{
+		QDirIterator it(rootDirectory, QDirIterator::Subdirectories);
 		uint32_t count = 0;
-		for(auto& p : recursive_directory_iterator(rootDirectory)) {
+		while (it.hasNext()) {
+			it.next();
 			count++;
 		}
 		return count;
 	}
 
-	std::vector<path::string_type> ArchiveBuilderHelper::getRootDirectoryFilenames(const path& rootDirectory) const
+	QStringList ArchiveBuilderHelper::getRootDirectoryFilenames(const QDir& rootDirectory) const
 	{
-		std::vector<path::string_type> filenames;
-		for (const auto& entry : directory_iterator(rootDirectory)) {
-			filenames.push_back(entry.path().filename().native());
-		}
-		return filenames;
+		const std::function<QString(const QFileInfo&)> getFilename = [](const QFileInfo& fi) {
+			return fi.fileName();
+		};
+		return QtConcurrent::blockingMapped(rootDirectory.entryInfoList(QDir::Files),
+											getFilename);
 	}
 
-	bool ArchiveBuilderHelper::isFileIgnorable(const path& filepath, const std::vector<path::string_type>& rootDirFilenames) const
+	bool ArchiveBuilderHelper::isFileIgnorable(const QString& filepath, const QStringList& rootDirFilenames) const
 	{
 		return this->doesPathContainFiles(filepath, rootDirFilenames) || // ignore files within mod directory
 			is_directory(filepath) || // ignore directories
 			this->isExtensionBlacklisted(filepath); // ignore user blacklisted file types
 	}
 
-	bool ArchiveBuilderHelper::isIncompressible(const path& filename) const
+	bool ArchiveBuilderHelper::isIncompressible(const QString& filename) const
 	{
 		const auto& extension = filename.extension().string();
 		const auto& count = ArchiveBuilderHelper::INCOMPRESSIBLE_TYPES.count(extension);
@@ -64,10 +66,5 @@ namespace BsaPacker
 		const auto& count = blacklist.count(extension);
 		const auto& result = count > 0;
 		return result;
-	}
-
-	bool ArchiveBuilderHelper::doesPathContainFiles(const path& filepath, const std::vector<path::string_type>& files) const
-	{
-		return std::find(files.begin(), files.end(), filepath.filename()) != files.end();
 	}
 } // namespace BsaPacker

@@ -1,7 +1,6 @@
 #ifndef ARCHIVEBUILDERHELPER_H
 #define ARCHIVEBUILDERHELPER_H
 
-#include "bsapacker_global.h"
 #include <bsapacker/IArchiveBuilderHelper.h>
 #include <bsapacker/ISettingsService.h>
 #include <set>
@@ -9,16 +8,23 @@
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT ArchiveBuilderHelper : public IArchiveBuilderHelper
+	class ArchiveBuilderHelper : public IArchiveBuilderHelper
 	{
 	public:
 		ArchiveBuilderHelper(const ISettingsService* settingsService);
-		[[nodiscard]] bool isFileIgnorable(const std::filesystem::path&, const std::vector<std::filesystem::path::string_type>&) const override;
-		[[nodiscard]] bool isIncompressible(const std::filesystem::path&) const override;
-		[[nodiscard]] bool isExtensionBlacklisted(const std::filesystem::path&) const override;
-		[[nodiscard]] uint32_t getFileCount(const std::filesystem::path&) const override;
-		[[nodiscard]] std::vector<std::filesystem::path::string_type> getRootDirectoryFilenames(const std::filesystem::path&) const override;
-		[[nodiscard]] bool doesPathContainFiles(const std::filesystem::path&, const std::vector<std::filesystem::path::string_type>&) const override;
+		~ArchiveBuilderHelper() override = default;
+		ArchiveBuilderHelper(const ArchiveBuilderHelper&) = delete;
+		ArchiveBuilderHelper& operator=(const ArchiveBuilderHelper&) = delete;
+		ArchiveBuilderHelper(ArchiveBuilderHelper&&) = delete;
+		ArchiveBuilderHelper& operator=(ArchiveBuilderHelper&&) = delete;
+
+		[[nodiscard]] bool isFileIgnorable(const QString&, const QStringList&) const override;
+		[[nodiscard]] bool isIncompressible(const QString&) const override;
+		[[nodiscard]] bool isExtensionBlacklisted(const QString&) const override;
+		[[nodiscard]] uint32_t getFileCount(const QDir&) const override;
+		[[nodiscard]] QStringList getRootDirectoryFilenames(const QDir&) const override;
+
+		const static std::array <QString, 3> INCOMPRESSIBLE_TYPES;
 
 	private:
 		const static std::set<std::string> INCOMPRESSIBLE_TYPES;

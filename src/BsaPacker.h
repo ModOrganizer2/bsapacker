@@ -1,14 +1,13 @@
 #ifndef BSA_PACKER_H
 #define BSA_PACKER_H
 
-#include "bsapacker_global.h"
 #include <iplugintool.h>
 #include <bsapacker/IModContext.h>
 #include <bsapacker/ISettingsService.h>
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT Bsa_Packer : public MOBase::IPluginTool
+	class Bsa_Packer : public MOBase::IPluginTool
 	{
 		Q_OBJECT
 			Q_INTERFACES(MOBase::IPlugin MOBase::IPluginTool)

@@ -12,7 +12,6 @@
 #include "HideLooseAssetService.h"
 #include "ModContext.h"
 #include "ModDto.h"
-#include "PackerDialog.h"
 #include "SettingsService.h"
 #include <bsapacker/ModDtoFactory.h>
 #include <QMessageBox>
@@ -89,8 +88,7 @@ namespace BsaPacker
 			di::bind<IFileWriterService>.to<FileWriterService>(),
 			di::bind<IArchiveNameService>.to<ArchiveNameService>(),
 			di::bind<IDummyPluginLogic>.to<DummyPluginLogic>(),
-			di::bind<IHideLooseAssetService>.to<HideLooseAssetService>(),
-			di::bind<IPackerDialog>.to<PackerDialog>()
+			di::bind<IHideLooseAssetService>.to<HideLooseAssetService>()
 		);
 
 		BsaPackerWorker worker = di::create<BsaPackerWorker>(injector);

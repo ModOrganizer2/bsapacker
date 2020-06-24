@@ -1,7 +1,6 @@
 #ifndef DUMMYPLUGINSERVICEFACTORY_H
 #define DUMMYPLUGINSERVICEFACTORY_H
 
-#include "bsapacker_global.h"
 #include <bsapacker/IDummyPluginLogic.h>
 #include <bsapacker/IDummyPluginServiceFactory.h>
 #include <bsapacker/IFileWriterService.h>
@@ -9,13 +8,13 @@
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT DummyPluginServiceFactory : public IDummyPluginServiceFactory
+	class DummyPluginServiceFactory : public IDummyPluginServiceFactory
 	{
 	public:
 		explicit DummyPluginServiceFactory(
 				const IModContext* modContext,
 				const IFileWriterService* fileWriterService, // bad! only passing this to another constructor!
-				const IDummyPluginLogic* dummyPluginLogic);  // TODO: perhaps remedy with strategy pattern?
+				const IDummyPluginLogic* dummyPluginLogic);  // perhaps remedy with strategy pattern?
 		~DummyPluginServiceFactory() override = default;
 		[[nodiscard]] std::unique_ptr<IDummyPluginService> Create() const override;
 

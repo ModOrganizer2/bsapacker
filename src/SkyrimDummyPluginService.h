@@ -1,14 +1,13 @@
 #ifndef SKYRIMDUMMYPLUGINSERVICE_H
 #define SKYRIMDUMMYPLUGINSERVICE_H
 
-#include "bsapacker_global.h"
 #include <bsapacker/IDummyPluginLogic.h>
 #include <bsapacker/IDummyPluginService.h>
 #include <bsapacker/IFileWriterService.h>
 
 namespace BsaPacker
 {
-	class BSAPACKER_EXPORT SkyrimDummyPluginService : public IDummyPluginService
+	class SkyrimDummyPluginService : public IDummyPluginService
 	{
 	public:
 		SkyrimDummyPluginService(const IFileWriterService* fileWriterService,
