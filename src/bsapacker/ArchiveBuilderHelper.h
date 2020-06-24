@@ -4,7 +4,7 @@
 #include "bsapacker_global.h"
 #include <bsapacker/IArchiveBuilderHelper.h>
 #include <bsapacker/ISettingsService.h>
-#include <array>
+#include <set>
 #include <string>
 
 namespace BsaPacker
@@ -21,7 +21,7 @@ namespace BsaPacker
 		[[nodiscard]] bool doesPathContainFiles(const std::filesystem::path&, const std::vector<std::filesystem::path::string_type>&) const override;
 
 	private:
-		const static std::array<std::string, 3> INCOMPRESSIBLE_TYPES;
+		const static std::set<std::string> INCOMPRESSIBLE_TYPES;
 		const ISettingsService* m_SettingsService = nullptr;
 	};
 } // namespace BsaPacker

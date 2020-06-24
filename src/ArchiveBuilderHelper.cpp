@@ -5,6 +5,9 @@
 
 #include "SettingsService.h"
 
+#include <QDebug>
+
+using std::filesystem::is_directory;
 using std::filesystem::path;
 using std::filesystem::directory_entry;
 using std::filesystem::directory_iterator;
@@ -12,7 +15,7 @@ using std::filesystem::recursive_directory_iterator;
 
 namespace BsaPacker
 {
-	const std::array<std::string, 3> ArchiveBuilderHelper::INCOMPRESSIBLE_TYPES = { ".wav", ".ogg", ".mp3" };
+	const std::set<std::string> ArchiveBuilderHelper::INCOMPRESSIBLE_TYPES = { ".wav", ".ogg", ".mp3" };
 
 	ArchiveBuilderHelper::ArchiveBuilderHelper(const ISettingsService* settingsService)
 		: m_SettingsService(settingsService)
@@ -38,34 +41,29 @@ namespace BsaPacker
 
 	bool ArchiveBuilderHelper::isFileIgnorable(const path& filepath, const std::vector<path::string_type>& rootDirFilenames) const
 	{
-		const auto& filename = filepath.filename();
 		return this->doesPathContainFiles(filepath, rootDirFilenames) || // ignore files within mod directory
-			directory_entry(filepath).is_directory() || // ignore directories
-			filename == "." || filename == ".." || // ignore current dir and parent dir entries
-			this->isExtensionBlacklisted(filename); // ignore user blacklisted file types
+			is_directory(filepath) || // ignore directories
+			this->isExtensionBlacklisted(filepath); // ignore user blacklisted file types
 	}
 
 	bool ArchiveBuilderHelper::isIncompressible(const path& filename) const
 	{
-		for (const auto& ext : ArchiveBuilderHelper::INCOMPRESSIBLE_TYPES) {
-			if (boost::iequals(filename.extension().string(), ext)) {
-				return true;
-			}
-		}
-		return false;
+		const auto& extension = filename.extension().string();
+		const auto& count = ArchiveBuilderHelper::INCOMPRESSIBLE_TYPES.count(extension);
+		const auto& result = count > 0;
+		return result;
 	}
 
-	bool ArchiveBuilderHelper::isExtensionBlacklisted(const path& filename) const
+	bool ArchiveBuilderHelper::isExtensionBlacklisted(const path& filepath) const
 	{
 		const auto& setting = this->m_SettingsService->GetPluginSetting(SettingsService::SETTING_BLACKLISTED_FILES).toString().toStdString();
-		std::vector<std::string> blacklist;
+		std::set<std::string> blacklist;
 		boost::split(blacklist, setting, [](char c){return c == ';';});
-		for (const auto& ext : blacklist) {
-			if (boost::iequals(filename.extension().string(), ext)) {
-				return true;
-			}
-		}
-		return false;
+
+		const auto& extension = filepath.extension().string();
+		const auto& count = blacklist.count(extension);
+		const auto& result = count > 0;
+		return result;
 	}
 
 	bool ArchiveBuilderHelper::doesPathContainFiles(const path& filepath, const std::vector<path::string_type>& files) const
