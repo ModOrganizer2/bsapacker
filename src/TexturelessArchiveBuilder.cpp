@@ -3,6 +3,7 @@
 #include <bsapacker/ArchiveBuilderHelper.h>
 #include <QDirIterator>
 #include <QApplication>
+#include <QDebug>
 
 using namespace libbsarch;
 
@@ -20,8 +21,10 @@ namespace BsaPacker
 		uint32_t incompressibleFiles = 0;
 		uint32_t compressibleFiles = 0;
 		int count = 0;
-		const auto& dirString = this->m_RootDirectory.path().toStdWString();
+		const auto& dirString = (this->m_RootDirectory.path() + '/').toStdWString();
 		const auto& rootDirFiles = this->m_ArchiveBuilderHelper->getRootDirectoryFilenames(dirString);
+		qDebug() << "root is: " << m_RootDirectory.path() + '/';
+
 		QDirIterator iterator(this->m_RootDirectory, QDirIterator::Subdirectories);
 		while (iterator.hasNext()) {
 			QApplication::processEvents();
@@ -41,9 +44,10 @@ namespace BsaPacker
 
 			this->m_ArchiveBuilderHelper->isIncompressible(filepath.toStdWString()) ? ++incompressibleFiles : ++compressibleFiles;
 			auto fileBlob = disk_blob(
-				 this->m_RootDirectory.path().toStdWString(),
+				 dirString,
 				 filepath.toStdWString());
 			this->m_Archive->add_file_from_disk(fileBlob);
+			qDebug() << "file is: " << filepath;
 		}
 		this->m_Archive->set_compressed(!static_cast<bool>(incompressibleFiles));
 		return incompressibleFiles + compressibleFiles;
