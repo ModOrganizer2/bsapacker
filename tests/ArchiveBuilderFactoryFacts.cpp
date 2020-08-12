@@ -149,9 +149,10 @@ namespace BsaPackerTests
 		// Arrange
 		auto sut = ArchiveBuilderFactory(naggyMockArchiveBuilderHelper);
 		auto type = bsa_archive_type_e::baTES3;
+		auto dto = ModDto(0, "", "", "");
 
 		// Act
-		auto returned = sut.Create(type, &ModDto(0, "", "", ""));
+		auto returned = sut.Create(type, &dto);
 		auto result = returned.get();
 
 		// Assert
@@ -164,9 +165,10 @@ namespace BsaPackerTests
 		// Arrange
 		auto sut = ArchiveBuilderFactory(naggyMockArchiveBuilderHelper);
 		auto type = bsa_archive_type_e::baTES4;
+		auto dto = ModDto(0, "", "", "");
 
 		// Act
-		auto returned = sut.Create(type, &ModDto(0, "", "", ""));
+		auto returned = sut.Create(type, &dto);
 		auto result = returned.get();
 
 		// Assert
@@ -179,9 +181,10 @@ namespace BsaPackerTests
 		// Arrange
 		auto sut = ArchiveBuilderFactory(naggyMockArchiveBuilderHelper);
 		auto type = bsa_archive_type_e::baFO3;
+		auto dto = ModDto(0, "", "", "");
 
 		// Act
-		auto returned = sut.Create(type, &ModDto(0, "", "", ""));
+		auto returned = sut.Create(type, &dto);
 		auto result = returned.get();
 
 		// Assert
@@ -194,9 +197,10 @@ namespace BsaPackerTests
 		// Arrange
 		auto sut = ArchiveBuilderFactory(naggyMockArchiveBuilderHelper);
 		auto type = bsa_archive_type_e::baSSE;
+		auto dto = ModDto(0, "", "", "");
 
 		// Act
-		auto returned = sut.Create(type, &ModDto(0, "", "", ""));
+		auto returned = sut.Create(type, &dto);
 		auto result = returned.get();
 
 		// Assert
@@ -209,9 +213,10 @@ namespace BsaPackerTests
 		// Arrange
 		auto sut = ArchiveBuilderFactory(naggyMockArchiveBuilderHelper);
 		auto type = bsa_archive_type_e::baFO4;
+		auto dto = ModDto(0, "", "", "");
 
 		// Act
-		auto returned = sut.Create(type, &ModDto(0, "", "", ""));
+		auto returned = sut.Create(type, &dto);
 		auto result = returned.get();
 
 		// Assert
@@ -224,9 +229,10 @@ namespace BsaPackerTests
 		// Arrange
 		auto sut = ArchiveBuilderFactory(naggyMockArchiveBuilderHelper);
 		auto type = bsa_archive_type_e::baFO4dds;
+		auto dto = ModDto(0, "", "", "");
 
 		// Act
-		auto returned = sut.Create(type, &ModDto(0, "", "", ""));
+		auto returned = sut.Create(type, &dto);
 		auto result = returned.get();
 
 		// Assert
