@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+add_library(bsa_packer SHARED)
+mo2_configure_plugin(bsa_packer WARNINGS OFF
+	PRIVATE_DEPENDS boost libbsarch Qt::Concurrent)
 
-if(DEFINED DEPENDENCIES_DIR)
-	include(${DEPENDENCIES_DIR}/modorganizer_super/cmake_common/src.cmake)
-else()
-	include(../../cmake_common/src.cmake)
-endif()
+target_include_directories(bsa_packer
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${BOOST_DI_ROOT}/include)
+target_compile_definitions(bsa_packer PRIVATE BSAPACKER_LIBRARY)
+target_link_libraries(bsa_packer
+	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../lib/DirectXTex.lib)
+
+mo2_install_target(bsa_packer)
