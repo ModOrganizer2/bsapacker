@@ -6,6 +6,7 @@ using namespace MOBase;
 class MockOrganizer : public IOrganizer
 {
 public:
+	// clang-format off
 	MOCK_METHOD(IModRepositoryBridge*, createNexusBridge, (), (const, override));
 	MOCK_METHOD(QString, profileName, (), (const, override));
 	MOCK_METHOD(QString, profilePath, (), (const, override));
@@ -31,6 +32,7 @@ public:
 	MOCK_METHOD(QStringList, findFiles, (const QString &path, const QStringList &filter), (const, override));
 	MOCK_METHOD(QStringList, getFileOrigins, (const QString &fileName) ,(const, override));
 	MOCK_METHOD(QList<FileInfo>, findFileInfos, (const QString &path, const std::function<bool(const FileInfo&)> &filter), (const, override));
+	MOCK_METHOD(std::shared_ptr<const IFileTree>, virtualFileTree, (), (const, override));
 	MOCK_METHOD(MOBase::IDownloadManager*, downloadManager, (), (const, override));
 	MOCK_METHOD(MOBase::IPluginList*, pluginList, (), (const, override));
 	MOCK_METHOD(MOBase::IModList*, modList, (), (const, override));
@@ -51,4 +53,5 @@ public:
 	MOCK_METHOD(bool, onPluginEnabled, (const QString&, const std::function<void()>&), (override));
 	MOCK_METHOD(bool, onPluginDisabled, (const std::function<void(const MOBase::IPlugin*)>&), (override));
 	MOCK_METHOD(bool, onPluginDisabled, (const QString&, const std::function<void()>&), (override));
+	// clang-format on
 };
