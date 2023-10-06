@@ -9,6 +9,7 @@
 #include "OblivionDummyPluginService.h"
 #include "SkyrimDummyPluginService.h"
 #include "SkyrimSEDummyPluginService.h"
+#include "StarfieldDummyPluginService.h"
 
 #include <QMessageBox>
 
@@ -40,6 +41,8 @@ namespace BsaPacker
 				return std::make_unique<SkyrimSEDummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
 			case NexusId::Fallout4:
 				return std::make_unique<Fallout4DummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
+			case NexusId::Starfield:
+				return std::make_unique<StarfieldDummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
 			case NexusId::Morrowind:
 			default:
 				break;

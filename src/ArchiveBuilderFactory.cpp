@@ -27,6 +27,7 @@ namespace BsaPacker
 			case NexusId::SkyrimSE:
 				return std::vector<bsa_archive_type_e> { baSSE };
 			case NexusId::Fallout4:
+			case NexusId::Starfield:
 				return std::vector<bsa_archive_type_e> { baFO4, baFO4dds };
 			default:
 				return std::vector<bsa_archive_type_e> { baNone };

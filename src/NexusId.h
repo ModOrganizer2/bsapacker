@@ -11,7 +11,8 @@ namespace BsaPacker
 		NewVegas = 130,
 		Skyrim = 110,
 		SkyrimSE = 1704,
-		Fallout4 = 1151
+		Fallout4 = 1151,
+		Starfield = 4187
 	};
 } // namespace BsaPacker
 
