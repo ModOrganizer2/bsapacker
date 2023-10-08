@@ -10,7 +10,7 @@ namespace BsaPacker
 	public:
 		virtual ~IDummyPluginService() = default;
 		virtual bool CreatePlugin(const QString& modPath,
-								  const QString& archiveNameBase) const = 0;
+			const QString& archiveNameBase) const = 0;
 	};
 }
 

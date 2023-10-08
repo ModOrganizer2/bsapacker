@@ -7,37 +7,38 @@
 namespace BsaPacker
 {
 	DummyPluginLogic::DummyPluginLogic(
-			const ISettingsService* settingsService,
-			const IArchiveNameService* archiveNameService)
+		const ISettingsService* settingsService,
+		const IArchiveNameService* archiveNameService)
 		: m_SettingsService(settingsService),
-		  m_ArchiveNameService(archiveNameService)
+		m_ArchiveNameService(archiveNameService)
 	{
 	}
 
-	bool DummyPluginLogic::canCreateDummyESP(const QString& fileNameNoExtension) const
+	bool DummyPluginLogic::canCreateDummyESP(const QString& fileNameNoExtension, const bsa_archive_type_e type) const
 	{
 		const std::array<QString, 2>& fileList = {
 			fileNameNoExtension + ".esm",
 			fileNameNoExtension + ".esp"
 		};
-		return this->canCreateDummy(fileList, fileNameNoExtension);
+		return this->canCreateDummy(fileList, fileNameNoExtension, type);
 	}
 
-	bool DummyPluginLogic::canCreateDummyESL(const QString& fileNameNoExtension) const
+	bool DummyPluginLogic::canCreateDummyESL(const QString& fileNameNoExtension, const bsa_archive_type_e type) const
 	{
 		const std::array<QString, 3>& fileList = {
 			fileNameNoExtension + ".esm",
 			fileNameNoExtension + ".esp",
 			fileNameNoExtension + ".esl"
 		};
-		return this->canCreateDummy(fileList, fileNameNoExtension);
+		return this->canCreateDummy(fileList, fileNameNoExtension, type);
 	}
 
 	template<std::size_t SIZE>
 	bool DummyPluginLogic::canCreateDummy(const std::array<QString, SIZE>& fileList,
-										  const QString& fileNameNoExtension) const
+		const QString& fileNameNoExtension,
+		const bsa_archive_type_e type) const
 	{
-		const QFileInfo archive(fileNameNoExtension + this->m_ArchiveNameService->GetFileExtension());
+		const QFileInfo archive(fileNameNoExtension + this->m_ArchiveNameService->Infix(type) + this->m_ArchiveNameService->GetFileExtension());
 		if (!(archive.exists() && archive.isFile())) {
 			return false;
 		}
@@ -46,7 +47,7 @@ namespace BsaPacker
 			return false;
 		}
 
-		for (const QString &info : fileList) {
+		for (const QString& info : fileList) {
 			const QFileInfo fileInfo(info);
 			if (fileInfo.exists() && fileInfo.isFile()) {
 				return false;

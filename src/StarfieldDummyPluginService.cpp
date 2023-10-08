@@ -1,8 +1,8 @@
-#include "Fallout4DummyPluginService.h"
+#include "StarfieldDummyPluginService.h"
 
 namespace BsaPacker
 {
-	Fallout4DummyPluginService::Fallout4DummyPluginService(
+	StarfieldDummyPluginService::StarfieldDummyPluginService(
 		const IFileWriterService* fileWriterService,
 		const IDummyPluginLogic* dummyPluginLogic)
 		: m_FileWriterService(fileWriterService),
@@ -10,7 +10,7 @@ namespace BsaPacker
 	{
 	}
 
-	bool Fallout4DummyPluginService::CreatePlugin(const QString& modPath,
+	bool StarfieldDummyPluginService::CreatePlugin(const QString& modPath,
 		const QString& archiveNameBase) const
 	{
 		const QString& fileNameNoExtension = modPath + '/' + archiveNameBase;
@@ -20,7 +20,7 @@ namespace BsaPacker
 		}
 		const std::string& absoluteFileName = fileNameNoExtension.toStdString() + ".esp";
 		return this->m_FileWriterService->Write(absoluteFileName,
-			reinterpret_cast<const char*>(Fallout4DummyPluginService::RAW_FALLOUT4),
-			sizeof(Fallout4DummyPluginService::RAW_FALLOUT4));
+			reinterpret_cast<const char*>(StarfieldDummyPluginService::RAW_STARFIELD),
+			sizeof(StarfieldDummyPluginService::RAW_STARFIELD));
 	}
 }

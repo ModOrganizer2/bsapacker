@@ -36,8 +36,9 @@ namespace BsaPacker
 			const std::unique_ptr<libbsarch::bs_archive_auto> archive = builder->getArchive();
 			if (archive) {
 				const QString& archiveFullPath = this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get());
-				this->m_ArchiveAutoService->CreateBSA(archive.get(), archiveFullPath, type);
-				QMessageBox::information(nullptr, "", QObject::tr("Created") + " \"" + archiveFullPath + "\"");
+				bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), archiveFullPath, type);
+				if (res)
+					QMessageBox::information(nullptr, "", QObject::tr("Created") + " \"" + archiveFullPath + "\"");
 			}
 		}
 		const std::unique_ptr<IDummyPluginService> pluginService = this->m_DummyPluginServiceFactory->Create();
