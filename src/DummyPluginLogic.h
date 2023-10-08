@@ -11,15 +11,16 @@ namespace BsaPacker
 	{
 	public:
 		DummyPluginLogic(const ISettingsService* settingsService,
-						 const IArchiveNameService* archiveNameService);
+			const IArchiveNameService* archiveNameService);
 		~DummyPluginLogic() override = default;
-		[[nodiscard]] bool canCreateDummyESP(const QString& fileNameNoExtension) const override;
-		[[nodiscard]] bool canCreateDummyESL(const QString& fileNameNoExtension) const override;
+		[[nodiscard]] bool canCreateDummyESP(const QString& fileNameNoExtension, const bsa_archive_type_e type) const override;
+		[[nodiscard]] bool canCreateDummyESL(const QString& fileNameNoExtension, const bsa_archive_type_e type) const override;
 
 	private:
 		template<std::size_t SIZE>
 		bool canCreateDummy(const std::array<QString, SIZE>& fileList,
-							const QString& fileNameNoExtension) const;
+			const QString& fileNameNoExtension,
+			const bsa_archive_type_e type) const;
 
 		const ISettingsService* m_SettingsService = nullptr;
 		const IArchiveNameService* m_ArchiveNameService = nullptr;
