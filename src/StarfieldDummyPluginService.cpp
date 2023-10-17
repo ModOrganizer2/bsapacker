@@ -18,7 +18,7 @@ namespace BsaPacker
 		{
 			return false;
 		}
-		const std::string& absoluteFileName = fileNameNoExtension.toStdString() + ".esp";
+		const std::string& absoluteFileName = fileNameNoExtension.toStdString() + ".esl";
 		return this->m_FileWriterService->Write(absoluteFileName,
 			reinterpret_cast<const char*>(StarfieldDummyPluginService::RAW_STARFIELD),
 			sizeof(StarfieldDummyPluginService::RAW_STARFIELD));
