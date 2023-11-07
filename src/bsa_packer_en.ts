@@ -18,22 +18,22 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="BsaPackerWorker.cpp" line="40"/>
+        <location filename="BsaPackerWorker.cpp" line="41"/>
         <source>Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ModDtoFactory.cpp" line="53"/>
+        <location filename="ModDtoFactory.cpp" line="54"/>
         <source>Archive name (no file extension):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ModDtoFactory.cpp" line="76"/>
+        <location filename="ModDtoFactory.cpp" line="77"/>
         <source>File &quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ModDtoFactory.cpp" line="76"/>
+        <location filename="ModDtoFactory.cpp" line="77"/>
         <source>&quot; already exists. Overwrite?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -65,6 +65,16 @@
     <message>
         <location filename="SettingsService.cpp" line="13"/>
         <source>Specify a semi-colon seperated list of file extensions to ignore when packing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ArchiveAutoService.cpp" line="12"/>
+        <source>Writing Archive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="ArchiveAutoService.cpp" line="15"/>
+        <source>Writing %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
