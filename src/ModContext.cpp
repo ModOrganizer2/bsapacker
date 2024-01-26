@@ -31,7 +31,8 @@ namespace BsaPacker
 
 	QStringList ModContext::GetPlugins(const QDir& modDirectory) const
 	{
-		const QString extension = (this->GetNexusId() == NexusId::Fallout4 || NexusId::Starfield) ? ".ba2" : ".bsa";
+		const int nexusId = this->GetNexusId();
+		const QString extension = (nexusId == NexusId::Fallout4 || nexusId == NexusId::Starfield) ? ".ba2" : ".bsa";
 		const std::function<QString(QString)> replace_extension = [&](QString fname) {
 			return fname.replace(fname.lastIndexOf('.'), 4, extension);
 		};

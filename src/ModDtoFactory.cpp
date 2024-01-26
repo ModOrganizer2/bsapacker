@@ -34,7 +34,7 @@ namespace BsaPacker
 		const QString& pluginName = this->m_PackerDialog->SelectedPluginItem();
 		const bool needsNewName = this->m_PackerDialog->IsNewFilename();
 		const QString& archiveName = ModDtoFactory::ArchiveNameValidator(modName, pluginName, needsNewName);
-		const QString& archiveExtension = (nexusId == FALLOUT_4_NEXUS_ID || STARFIELD_NEXUS_ID)
+		const QString& archiveExtension = (nexusId == FALLOUT_4_NEXUS_ID || nexusId == STARFIELD_NEXUS_ID)
 				? QStringLiteral(".ba2")
 				: QStringLiteral(".bsa");
 
