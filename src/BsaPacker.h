@@ -20,6 +20,7 @@ namespace BsaPacker
 		// IPlugin interface
 		bool init(MOBase::IOrganizer* moInfo) override;
 		[[nodiscard]] QString name() const override;
+		[[nodiscard]] std::vector<std::shared_ptr<const MOBase::IPluginRequirement>> requirements() const override;
 		[[nodiscard]] QString author() const override;
 		[[nodiscard]] QString description() const override;
 		[[nodiscard]] MOBase::VersionInfo version() const override;
