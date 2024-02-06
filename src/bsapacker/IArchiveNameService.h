@@ -12,7 +12,7 @@ namespace BsaPacker
 	public:
 		virtual ~IArchiveNameService() = default;
 		virtual QString GetFileExtension() const = 0;
-		virtual QString GetArchiveFullPath(bsa_archive_type_e, const IModDto*) const = 0;
+		virtual QString GetArchiveFullPath(bsa_archive_type_e, const IModDto*, const int archiveIndex) const = 0;
 		virtual QString Infix(bsa_archive_type_e type) const = 0;
 	};
 }

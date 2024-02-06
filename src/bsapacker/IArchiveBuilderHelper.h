@@ -16,6 +16,7 @@ namespace BsaPacker
 		[[nodiscard]] virtual uint32_t getFileCount(const std::filesystem::path&) const = 0;
 		[[nodiscard]] virtual std::vector<std::filesystem::path::string_type> getRootDirectoryFilenames(const std::filesystem::path&) const = 0;
 		[[nodiscard]] virtual bool doesPathContainFiles(const std::filesystem::path&, const std::vector<std::filesystem::path::string_type>&) const = 0;
+		[[nodiscard]] virtual bool shouldSplitArchives() const = 0;
 	};
 } // namespace BsaPacker
 

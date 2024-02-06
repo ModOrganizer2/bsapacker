@@ -19,6 +19,7 @@ namespace BsaPacker
 		[[nodiscard]] uint32_t getFileCount(const std::filesystem::path&) const override;
 		[[nodiscard]] std::vector<std::filesystem::path::string_type> getRootDirectoryFilenames(const std::filesystem::path&) const override;
 		[[nodiscard]] bool doesPathContainFiles(const std::filesystem::path&, const std::vector<std::filesystem::path::string_type>&) const override;
+		[[nodiscard]] bool shouldSplitArchives() const override;
 
 	private:
 		const static std::set<std::string> INCOMPRESSIBLE_TYPES;

@@ -70,4 +70,9 @@ namespace BsaPacker
 	{
 		return std::find(files.begin(), files.end(), filepath.filename()) != files.end();
 	}
+
+	bool ArchiveBuilderHelper::shouldSplitArchives() const
+	{
+		return this->m_SettingsService->GetPluginSetting(SettingsService::SETTING_SPLIT_ARCHIVES).toBool();
+	}
 } // namespace BsaPacker

@@ -9,11 +9,15 @@ using namespace libbsarch;
 
 namespace BsaPacker
 {
+	// 2 GiB limit
+	const qint64 MAXSIZE = 2147483648;
+
 	GeneralArchiveBuilder::GeneralArchiveBuilder(const IArchiveBuilderHelper* archiveBuilderHelper, const QDir& rootDir, const bsa_archive_type_t& type)
-		: m_ArchiveBuilderHelper(archiveBuilderHelper), m_RootDirectory(rootDir)
+		: m_ArchiveBuilderHelper(archiveBuilderHelper), m_RootDirectory(rootDir), m_CurrentType(type)
 	{
 		this->m_Cancelled = false;
-		this->m_Archive = std::make_unique<libbsarch::bs_archive_auto>(type);
+		this->m_Archives.push_back(std::make_unique<libbsarch::bs_archive_auto>(m_CurrentType));
+		this->m_ArchiveIndex = 0;
 	}
 
 	uint32_t GeneralArchiveBuilder::setFiles()
@@ -21,6 +25,7 @@ namespace BsaPacker
 		uint32_t incompressibleFiles = 0;
 		uint32_t compressibleFiles = 0;
 		int count = 0;
+		qint64 totalSize = 0;
 		const auto& dirString = (this->m_RootDirectory.path() + '/').toStdWString();
 		const auto& rootDirFiles = this->m_ArchiveBuilderHelper->getRootDirectoryFilenames(dirString);
 		qDebug() << "root is: " << m_RootDirectory.path() + '/';
@@ -30,37 +35,50 @@ namespace BsaPacker
 			QApplication::processEvents();
 
 			if (this->m_Cancelled) {
-				this->m_Archive.reset();
+				for (auto& archive : m_Archives) {
+					archive.reset();
+				}
 				return 0;
 			}
 
-			const QString& filepath = iterator.next();
-			const bool ignored = this->m_ArchiveBuilderHelper->isFileIgnorable(filepath.toStdWString(), rootDirFiles);
+			const QFileInfo& fileInfo = iterator.nextFileInfo();
+			const bool ignored = this->m_ArchiveBuilderHelper->isFileIgnorable(fileInfo.absoluteFilePath().toStdWString(), rootDirFiles);
 
 			Q_EMIT this->valueChanged(++count);
 			if (ignored) {
 				continue;
 			}
 
-			this->m_ArchiveBuilderHelper->isIncompressible(filepath.toStdWString()) ? ++incompressibleFiles : ++compressibleFiles;
+			if (totalSize + fileInfo.size() > MAXSIZE) {
+				this->m_Archives[m_ArchiveIndex]->set_compressed(!static_cast<bool>(incompressibleFiles));
+				incompressibleFiles = 0;
+				compressibleFiles = 0;
+				totalSize = 0;
+				this->m_Archives.push_back(std::make_unique<libbsarch::bs_archive_auto>(m_CurrentType));
+				++m_ArchiveIndex;
+				this->setShareData(true);
+			}
+
+			totalSize += fileInfo.size();
+			this->m_ArchiveBuilderHelper->isIncompressible(fileInfo.absoluteFilePath().toStdWString()) ? ++incompressibleFiles : ++compressibleFiles;
 			auto fileBlob = disk_blob(
 				 dirString,
-				 filepath.toStdWString());
-			this->m_Archive->add_file_from_disk(fileBlob);
-			qDebug() << "file is: " << filepath;
+				fileInfo.absoluteFilePath().toStdWString());
+			this->m_Archives[m_ArchiveIndex]->add_file_from_disk(fileBlob);
+			qDebug() << "file is: " << fileInfo.absoluteFilePath();
 		}
-		this->m_Archive->set_compressed(!static_cast<bool>(incompressibleFiles));
+		this->m_Archives[m_ArchiveIndex]->set_compressed(!static_cast<bool>(incompressibleFiles));
 		return incompressibleFiles + compressibleFiles;
 	}
 
 	void GeneralArchiveBuilder::setShareData(const bool value)
 	{
-		this->m_Archive->set_share_data(value);
+		this->m_Archives[m_ArchiveIndex]->set_share_data(value);
 	}
 
-	std::unique_ptr<libbsarch::bs_archive_auto> GeneralArchiveBuilder::getArchive()
+	std::vector<std::unique_ptr<libbsarch::bs_archive_auto>> GeneralArchiveBuilder::getArchives()
 	{
-		return std::move(this->m_Archive);
+		return std::move(this->m_Archives);
 	}
 
 	uint32_t GeneralArchiveBuilder::getFileCount() const
