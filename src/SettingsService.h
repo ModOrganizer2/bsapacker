@@ -21,6 +21,7 @@ namespace BsaPacker
 		static const QString& SETTING_CREATE_OVERRIDES;
 		static const QString& SETTING_BLACKLISTED_FILES;
 		static const QString& SETTING_SPLIT_ARCHIVES;
+		static const QString& SETTING_COMPRESS_ARCHIVES;
 
 		static const QList<MOBase::PluginSetting>& PluginSettings;
 
