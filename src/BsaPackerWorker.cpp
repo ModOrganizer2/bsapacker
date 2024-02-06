@@ -14,14 +14,16 @@ namespace BsaPacker
 		const IArchiveAutoService* archiveAutoService,
 		const IDummyPluginServiceFactory* dummyPluginServiceFactory,
 		const IHideLooseAssetService* hideLooseAssetService,
-		const IArchiveNameService* archiveNameService) :
+		const IArchiveNameService* archiveNameService,
+		const IOverrideFileService* overrideFileService) :
 		m_SettingsService(settingsService),
 		m_ModDtoFactory(modDtoFactory),
 		m_ArchiveBuilderFactory(archiveBuilderFactory),
 		m_ArchiveAutoService(archiveAutoService),
 		m_DummyPluginServiceFactory(dummyPluginServiceFactory),
 		m_HideLooseAssetService(hideLooseAssetService),
-		m_ArchiveNameService(archiveNameService)
+		m_ArchiveNameService(archiveNameService),
+		m_OverrideFileService(overrideFileService)
 	{
 	}
 
@@ -38,6 +40,7 @@ namespace BsaPacker
 				const QString& archiveFullPath = this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get());
 				bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), archiveFullPath, type);
 				if (res)
+					this->m_OverrideFileService->CreateOverrideFile(modDto.get()->NexusId(), archiveFullPath);
 					QMessageBox::information(nullptr, "", QObject::tr("Created") + " \"" + archiveFullPath + "\"");
 			}
 		}

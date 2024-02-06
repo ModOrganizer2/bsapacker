@@ -18,6 +18,7 @@ namespace BsaPacker
 		static const QString& SETTING_ENABLED;
 		static const QString& SETTING_HIDE_LOOSE_ASSETS;
 		static const QString& SETTING_CREATE_PLUGINS;
+		static const QString& SETTING_CREATE_OVERRIDES;
 		static const QString& SETTING_BLACKLISTED_FILES;
 		//static const QString& SETTING_SPLIT_ARCHIVES;
 
