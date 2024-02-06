@@ -29,7 +29,10 @@ namespace BsaPacker
 
 	QString ArchiveNameService::GetArchiveFullPath(const bsa_archive_type_e type, const IModDto* modDto, const int archiveIndex) const
 	{
-		return QDir::toNativeSeparators(modDto->Directory() + '/' + modDto->ArchiveName() + this->Infix(type) + QString::number(archiveIndex + 1) + this->GetFileExtension());
+		if (archiveIndex == 0) {
+			return QDir::toNativeSeparators(modDto->Directory() + '/' + modDto->ArchiveName() + this->Infix(type) + this->GetFileExtension());
+		}
+		return QDir::toNativeSeparators(modDto->Directory() + '/' + modDto->ArchiveName() + this->Infix(type) + QString::number(archiveIndex) + this->GetFileExtension());
 	}
 
 	QString ArchiveNameService::Infix(const bsa_archive_type_e type) const
