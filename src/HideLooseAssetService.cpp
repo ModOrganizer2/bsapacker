@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QDirIterator>
+#include <QFileInfo>
 #include <QString>
 #include <QtConcurrent/QtConcurrentMap>
 
@@ -22,70 +23,35 @@ namespace BsaPacker
 			return false;
 		}
 
-		// Get QStringList of blacklisted extensions and remove the . so we can match with QFileInfo::suffix later
-		// This relies on the extension being in format .ext
+		// Only hide loose files that were not excluded when creating the archive (blacklisted), so might still be needed by the mod
 		QStringList blacklistExtensions = this->m_SettingsService->GetPluginSetting(SettingsService::SETTING_BLACKLISTED_FILES).toString().split(';');
 		for (auto& ext : blacklistExtensions) {
-			ext.remove(0, 1);
+			ext.prepend("*");
 		}
 
-		// loop through subdirectories in mod directory
+		// Hide subdirectories
 		const QString& absModDir = modDirectory.absolutePath();
 		for (const QString& subDir : modDirectory.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
 			const QString& absPath = absModDir + '/' + subDir;
 			QDir dir(absPath);
-			
-			// directory is already hidden or empty so skip it
 			if (dir.dirName().endsWith(s_HiddenExt) || dir.isEmpty()) {
 				continue;
 			}
-
-			// get QStringList of file paths that should not be hidden and count total files
-			int fileCount = 0;
-			QStringList blacklistFilePaths;
-			QDirIterator iterator(absPath, QDir::Files, QDirIterator::Subdirectories);
-			while (iterator.hasNext()) {
-				QFileInfo fileInfo(iterator.nextFileInfo());
-				if (blacklistExtensions.contains(fileInfo.suffix(), Qt::CaseInsensitive)) {
-					blacklistFilePaths.append(fileInfo.absoluteFilePath());
-				}
-				++fileCount;
-			}
-
-			// directory has only blacklisted files so do nothing
-			if (fileCount == blacklistFilePaths.count())
-				continue;
-
-			// directory has no blacklisted files so hide it
-			if (blacklistFilePaths.isEmpty()) {
-				if (!dir.rename(absPath, absPath + s_HiddenExt)) {
-					qWarning() << "Failed to rename " << absPath << " to " << absPath + s_HiddenExt;
-				}
-				continue;
-			}
-
-			// directory has some blacklisted files so hide the directory then move blacklisted files out of it
 			if (!dir.rename(absPath, absPath + s_HiddenExt)) {
-				qWarning() << "Failed to rename " << absPath << " to " << absPath + s_HiddenExt;
+				qWarning() << "Failed to hide directory " << absPath;
+			}
+		}
+
+		// Restore files with blacklisted extension to their original directories
+		QDir renamerDir(absModDir);
+		QDirIterator iterator(absModDir, blacklistExtensions, QDir::Files, QDirIterator::Subdirectories);
+		while (iterator.hasNext()) {
+			const QFileInfo& fileInfo(iterator.nextFileInfo());
+			if (!renamerDir.mkpath(fileInfo.absolutePath().replace(s_HiddenExt, ""))) {
+				qWarning() << "Failed to make directory " << fileInfo.absolutePath().replace(s_HiddenExt, "");
 				continue;
 			}
-
-			const qsizetype absPathLength = absPath.length();
-			for (const auto& blacklistedPath : blacklistFilePaths) {
-				QFileInfo fileInfo(blacklistedPath);
-				QDir fileDir(fileInfo.absolutePath());
-
-				if (!fileDir.exists() && !fileDir.mkpath(fileDir.absolutePath())) {
-					qWarning() << "Failed to create path " << fileDir.absolutePath();
-					continue;
-				}
-
-				QString hiddenPath(blacklistedPath);
-				hiddenPath.insert(absPathLength, s_HiddenExt);
-				if (!fileDir.rename(hiddenPath, blacklistedPath)) {
-					qWarning() << "Failed to rename " << hiddenPath << " to " << blacklistedPath;
-				}
-			}
+			renamerDir.rename(fileInfo.absoluteFilePath(), fileInfo.absoluteFilePath().replace(s_HiddenExt, ""));
 		}
 		return true;
 
