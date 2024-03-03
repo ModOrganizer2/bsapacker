@@ -2,7 +2,6 @@
 
 #include <QDir>
 #include <QDirIterator>
-#include <QFileInfo>
 #include <QString>
 #include <QtConcurrent/QtConcurrentMap>
 
@@ -29,29 +28,30 @@ namespace BsaPacker
 			ext.prepend("*");
 		}
 
-		// Hide subdirectories
 		const QString& absModDir = modDirectory.absolutePath();
 		for (const QString& subDir : modDirectory.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+			// Hide subdirectories
 			const QString& absPath = absModDir + '/' + subDir;
-			QDir dir(absPath);
-			if (dir.dirName().endsWith(s_HiddenExt) || dir.isEmpty()) {
+			QDir originalDir(absPath);
+			if (originalDir.dirName().endsWith(s_HiddenExt) || originalDir.isEmpty()) {
 				continue;
 			}
-			if (!dir.rename(absPath, absPath + s_HiddenExt)) {
-				qWarning() << "Failed to hide directory " << absPath;
+			if (!originalDir.rename(originalDir.absolutePath(), originalDir.absolutePath() + s_HiddenExt)) {
+				qWarning() << "Failed to hide " << originalDir.absolutePath();
+				continue;
 			}
-		}
 
-		// Restore files with blacklisted extension to their original directories
-		QDir renamerDir(absModDir);
-		QDirIterator iterator(absModDir, blacklistExtensions, QDir::Files, QDirIterator::Subdirectories);
-		while (iterator.hasNext()) {
-			const QFileInfo& fileInfo(iterator.nextFileInfo());
-			if (!renamerDir.mkpath(fileInfo.absolutePath().replace(s_HiddenExt, ""))) {
-				qWarning() << "Failed to make directory " << fileInfo.absolutePath().replace(s_HiddenExt, "");
-				continue;
+			// Restore files with blacklisted extension to their original directories
+			QDir hiddenDir(originalDir.absolutePath() + s_HiddenExt);
+			QDirIterator iterator(hiddenDir.absolutePath(), blacklistExtensions, QDir::Files, QDirIterator::Subdirectories);
+			while (iterator.hasNext()) {
+				QString hiddenFilePath = iterator.next();
+				QString originalFilePath = originalDir.absoluteFilePath(hiddenDir.relativeFilePath(hiddenFilePath));
+				originalDir.mkpath(originalFilePath.left(originalFilePath.lastIndexOf("/")));
+				if (!originalDir.rename(hiddenFilePath, originalFilePath)) {
+					qWarning() << "Failed to unhide " << hiddenFilePath;
+				}
 			}
-			renamerDir.rename(fileInfo.absoluteFilePath(), fileInfo.absoluteFilePath().replace(s_HiddenExt, ""));
 		}
 		return true;
 

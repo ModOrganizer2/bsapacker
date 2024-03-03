@@ -36,10 +36,6 @@ namespace BsaPacker
 		return QStringLiteral("BSA Packer");
 	}
 
-	std::vector<std::shared_ptr<const MOBase::IPluginRequirement>> Bsa_Packer::requirements() const {
-		return { Requirements::gameDependency({ "Morrowind", "Oblivion", "Fallout 3", "New Vegas", "Skyrim", "Skyrim Special Edition", "Skyrim VR", "Fallout 4", "Fallout 4 VR", "Starfield"}) };
-	}
-
 	QString Bsa_Packer::author() const
 	{
 		return QStringLiteral("MattyFez");
