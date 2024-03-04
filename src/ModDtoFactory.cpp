@@ -34,7 +34,11 @@ namespace BsaPacker
 		const QString& pluginName = this->m_PackerDialog->SelectedPluginItem();
 		const bool needsNewName = this->m_PackerDialog->IsNewFilename();
 		const QString& archiveName = ModDtoFactory::ArchiveNameValidator(modName, pluginName, needsNewName);
-		const QString& archiveExtension = (nexusId == FALLOUT_4_NEXUS_ID || STARFIELD_NEXUS_ID)
+		if (archiveName == nullptr) {
+			return std::make_unique<NullModDto>();
+		}
+
+		const QString& archiveExtension = (nexusId == FALLOUT_4_NEXUS_ID || nexusId == STARFIELD_NEXUS_ID)
 				? QStringLiteral(".ba2")
 				: QStringLiteral(".bsa");
 
@@ -55,7 +59,13 @@ namespace BsaPacker
 														QLineEdit::Normal,
 														modName,
 														&ok).simplified();
-			if (!ok || name.isEmpty() || name.isNull()) {
+			if (!ok) {
+				return nullptr;
+			}
+			// Nameless plugins are not loaded in the games I tested. Nameless archives can be loaded in
+			// some games using the SArchiveList INI setting or equivalent. It is simpler to just prevent nameless archives
+			else if (name.isEmpty()) {
+				qWarning("Archive name cannot be empty. Cancelling archive creation.");
 				return nullptr;
 			}
 			archive_name_base = name;
