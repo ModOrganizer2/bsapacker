@@ -48,6 +48,10 @@ namespace BsaPacker
 
 	bool ArchiveBuilderHelper::isIncompressible(const path& filename) const
 	{
+		if (!this->m_SettingsService->GetPluginSetting(SettingsService::SETTING_COMPRESS_ARCHIVES).toBool()) {
+			return true;
+		}
+
 		const auto& extension = filename.extension().string();
 		const auto& count = ArchiveBuilderHelper::INCOMPRESSIBLE_TYPES.count(extension);
 		const auto& result = count > 0;
