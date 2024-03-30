@@ -26,7 +26,19 @@ namespace BsaPacker
 	int ModContext::GetNexusId() const
 	{
 		const MOBase::IPluginGame* managedGame = this->m_Organizer->managedGame();
-		return managedGame->nexusGameID();
+		int nexusId = managedGame->nexusGameID();
+
+		// Games with no Nexus page have an ID of 0. Use primarySources in that case
+		if (nexusId != 0) {
+			return nexusId;
+		}
+		if (!managedGame->primarySources().isEmpty()) {
+			QString primarySource = managedGame->primarySources().first();
+			if (primarySource == "FalloutNV") { // TTW
+				return NexusId::NewVegas;
+			}
+		}		
+		return nexusId;
 	}
 
 	QStringList ModContext::GetPlugins(const QDir& modDirectory) const

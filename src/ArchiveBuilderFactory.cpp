@@ -23,8 +23,10 @@ namespace BsaPacker
 			case NexusId::Fallout3:
 			case NexusId::NewVegas:
 			case NexusId::Skyrim:
+			case NexusId::Enderal:
 				return std::vector<bsa_archive_type_e> { baFO3 };
 			case NexusId::SkyrimSE:
+			case NexusId::EnderalSE:
 				return std::vector<bsa_archive_type_e> { baSSE };
 			case NexusId::Fallout4:
 			case NexusId::Starfield:

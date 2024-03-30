@@ -18,6 +18,8 @@ namespace BsaPacker
 		case NexusId::NewVegas:
 		case NexusId::Skyrim:
 		case NexusId::SkyrimSE:
+		case NexusId::Enderal:
+		case NexusId::EnderalSE:
 			return QStringLiteral(".bsa");
 		case NexusId::Fallout4:
 		case  NexusId::Starfield:

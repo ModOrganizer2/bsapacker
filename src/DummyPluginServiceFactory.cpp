@@ -36,8 +36,10 @@ namespace BsaPacker
 			case NexusId::NewVegas:
 				return std::make_unique<NewVegasDummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
 			case NexusId::Skyrim:
+			case NexusId::Enderal:
 				return std::make_unique<SkyrimDummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
 			case NexusId::SkyrimSE:
+			case NexusId::EnderalSE:
 				return std::make_unique<SkyrimSEDummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
 			case NexusId::Fallout4:
 				return std::make_unique<Fallout4DummyPluginService>(m_FileWriterService, m_DummyPluginLogic);
