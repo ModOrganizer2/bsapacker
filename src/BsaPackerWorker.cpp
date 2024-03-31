@@ -14,14 +14,16 @@ namespace BsaPacker
 		const IArchiveAutoService* archiveAutoService,
 		const IDummyPluginServiceFactory* dummyPluginServiceFactory,
 		const IHideLooseAssetService* hideLooseAssetService,
-		const IArchiveNameService* archiveNameService) :
+		const IArchiveNameService* archiveNameService,
+		const IOverrideFileService* overrideFileService) :
 		m_SettingsService(settingsService),
 		m_ModDtoFactory(modDtoFactory),
 		m_ArchiveBuilderFactory(archiveBuilderFactory),
 		m_ArchiveAutoService(archiveAutoService),
 		m_DummyPluginServiceFactory(dummyPluginServiceFactory),
 		m_HideLooseAssetService(hideLooseAssetService),
-		m_ArchiveNameService(archiveNameService)
+		m_ArchiveNameService(archiveNameService),
+		m_OverrideFileService(overrideFileService)
 	{
 	}
 
@@ -43,6 +45,8 @@ namespace BsaPacker
 		}
 		const std::unique_ptr<IDummyPluginService> pluginService = this->m_DummyPluginServiceFactory->Create();
 		pluginService->CreatePlugin(modDto->Directory(), modDto->ArchiveName());
+
+		this->m_OverrideFileService->CreateOverrideFile(modDto->NexusId(), modDto->Directory(), modDto->ArchiveName());
 
 		if (!modDto->Directory().isEmpty()) {
 			this->m_HideLooseAssetService->HideLooseAssets(modDto->Directory());
