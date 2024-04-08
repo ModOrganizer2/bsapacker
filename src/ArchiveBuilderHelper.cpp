@@ -7,7 +7,6 @@
 
 #include <QDebug>
 
-using std::filesystem::is_directory;
 using std::filesystem::path;
 using std::filesystem::directory_entry;
 using std::filesystem::directory_iterator;
@@ -25,7 +24,9 @@ namespace BsaPacker
 	{
 		uint32_t count = 0;
 		for(auto& p : recursive_directory_iterator(rootDirectory)) {
-			count++;
+			if (p.is_regular_file()) {
+				count++;
+			}
 		}
 		return count;
 	}
@@ -42,7 +43,6 @@ namespace BsaPacker
 	bool ArchiveBuilderHelper::isFileIgnorable(const path& filepath, const std::vector<path::string_type>& rootDirFilenames) const
 	{
 		return this->doesPathContainFiles(filepath, rootDirFilenames) || // ignore files within mod directory
-			is_directory(filepath) || // ignore directories
 			this->isExtensionBlacklisted(filepath); // ignore user blacklisted file types
 	}
 

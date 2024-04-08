@@ -26,7 +26,7 @@ namespace BsaPacker
 		const auto& rootDirFiles = this->m_ArchiveBuilderHelper->getRootDirectoryFilenames(dirString);
 		qDebug() << "root is: " << m_RootDirectory.path() + '/';
 
-		QDirIterator iterator(this->m_RootDirectory, QDirIterator::Subdirectories);
+		QDirIterator iterator(this->m_RootDirectory.absolutePath(), QDir::Files, QDirIterator::Subdirectories);
 		while (iterator.hasNext()) {
 			QApplication::processEvents();
 
