@@ -12,6 +12,7 @@
 #include "HideLooseAssetService.h"
 #include "ModContext.h"
 #include "ModDto.h"
+#include "OverrideFileService.h"
 #include "PackerDialog.h"
 #include "SettingsService.h"
 #include <bsapacker/ModDtoFactory.h>
@@ -85,7 +86,8 @@ namespace BsaPacker
 			di::bind<IArchiveNameService>.to<ArchiveNameService>(),
 			di::bind<IDummyPluginLogic>.to<DummyPluginLogic>(),
 			di::bind<IHideLooseAssetService>.to<HideLooseAssetService>(),
-			di::bind<IPackerDialog>.to<PackerDialog>()
+			di::bind<IPackerDialog>.to<PackerDialog>(),
+			di::bind<IOverrideFileService>.to<OverrideFileService>()
 		);
 
 		BsaPackerWorker worker = di::create<BsaPackerWorker>(injector);

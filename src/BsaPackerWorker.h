@@ -9,6 +9,7 @@
 #include <bsapacker/IDummyPluginServiceFactory.h>
 #include <bsapacker/IHideLooseAssetService.h>
 #include <bsapacker/IArchiveNameService.h>
+#include <bsapacker/IOverrideFileService.h>
 
 namespace BsaPacker
 {
@@ -22,7 +23,8 @@ namespace BsaPacker
 			const IArchiveAutoService* archiveAutoService,
 			const IDummyPluginServiceFactory* dummyPluginService,
 			const IHideLooseAssetService* hideLooseAssetService,
-			const IArchiveNameService* archiveNameService);
+			const IArchiveNameService* archiveNameService,
+			const IOverrideFileService* overrideFileService);
 		void DoWork() const;
 
 	private:
@@ -33,6 +35,7 @@ namespace BsaPacker
 		const IDummyPluginServiceFactory* m_DummyPluginServiceFactory = nullptr;
 		const IHideLooseAssetService* m_HideLooseAssetService = nullptr;
 		const IArchiveNameService* m_ArchiveNameService = nullptr;
+		const IOverrideFileService* m_OverrideFileService = nullptr;
 	};
 }
 
