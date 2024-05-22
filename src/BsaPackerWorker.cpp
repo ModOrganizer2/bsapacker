@@ -39,23 +39,23 @@ namespace BsaPacker
 			const std::vector<std::unique_ptr<libbsarch::bs_archive_auto>> archives = builder->getArchives();
 			for (const auto& archive : archives) {
 				if (archive) {
-					const QString& archiveFullPath = this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get());
-					bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), archiveFullPath, type);
+					const QFileInfo fileInfo(this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get()));
+					bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), fileInfo.absoluteFilePath(), type);
 					if (res) {
-						createdArchives.append(QFileInfo(archiveFullPath).fileName());
+						createdArchives.append(fileInfo.baseName());
 					}
 				}
 			}
 		}
 
 		if (!createdArchives.isEmpty()) {
-			QMessageBox::information(nullptr, "", QObject::tr("Created archive(s):") + "\n" + createdArchives.join(",\n"));
+			QMessageBox::information(nullptr, "",
+        QObject::tr("Created archive(s):") + "\n" + createdArchives.join(modDto->ArchiveExtension() +",\n") + modDto->ArchiveExtension());
+			this->m_OverrideFileService->CreateOverrideFile(modDto->NexusId(), modDto->Directory(), createdArchives);
 		}
 
 		const std::unique_ptr<IDummyPluginService> pluginService = this->m_DummyPluginServiceFactory->Create();
 		pluginService->CreatePlugin(modDto->Directory(), modDto->ArchiveName());
-
-		this->m_OverrideFileService->CreateOverrideFile(modDto->NexusId(), modDto->Directory(), modDto->ArchiveName());
 
 		if (!modDto->Directory().isEmpty()) {
 			this->m_HideLooseAssetService->HideLooseAssets(modDto->Directory());
