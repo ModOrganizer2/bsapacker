@@ -55,6 +55,8 @@ namespace BsaPacker
 		};
 	}
 
+	// gets the number to append when there are multiple archives
+	// a way to avoid overwriting any existing files
 	QString ArchiveNameService::Suffix(const QString& pathNoExt) const {
 		int archiveIndex = 0;
 		const QString& fileExt = this->GetFileExtension();

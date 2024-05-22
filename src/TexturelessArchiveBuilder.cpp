@@ -9,7 +9,7 @@ using namespace libbsarch;
 
 namespace BsaPacker
 {
-	// 4 GiB limit for the Fallout 4 Creation Kit. The game itself has no limit
+	// 4 GiB limit for the Fallout 4 Creation Kit. The game itself has no limit so could make an optional setting
 	// This does not consider size after compression or share data
 	const qint64 TexturelessArchiveBuilder::SIZE_LIMIT = (qint64)1024 * 1024 * 1024 * 4;
 
