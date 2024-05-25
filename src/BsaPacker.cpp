@@ -39,7 +39,7 @@ namespace BsaPacker
 
 	QString Bsa_Packer::author() const
 	{
-		return QStringLiteral("MattyFez");
+		return QStringLiteral("MattyFez & MO2 Team");
 	}
 
 	QString Bsa_Packer::description() const
@@ -49,7 +49,7 @@ namespace BsaPacker
 
 	MOBase::VersionInfo Bsa_Packer::version() const
 	{
-		return MOBase::VersionInfo(1, 0, 4, MOBase::VersionInfo::RELEASE_FINAL);
+		return MOBase::VersionInfo(1, 1, 0, MOBase::VersionInfo::RELEASE_FINAL);
 	}
 
 	QList<MOBase::PluginSetting> Bsa_Packer::settings() const
@@ -93,9 +93,5 @@ namespace BsaPacker
 		BsaPackerWorker worker = di::create<BsaPackerWorker>(injector);
 		worker.DoWork();
 	}
-
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-	Q_EXPORT_PLUGIN2(myTool, BSA_Packer)
-#endif
 
 } // namespace BsaPacker
