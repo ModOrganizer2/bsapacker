@@ -38,7 +38,9 @@ namespace BsaPacker
 	{
 		switch (type) {
 		case baFO4:
+		case baSF:
 			return QStringLiteral(" - Main");
+		case baSFdds:
 		case baFO4dds:
 			return QStringLiteral(" - Textures");
 		case baTES3:

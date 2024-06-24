@@ -29,8 +29,9 @@ namespace BsaPacker
 			case NexusId::EnderalSE:
 				return std::vector<bsa_archive_type_e> { baSSE };
 			case NexusId::Fallout4:
-			case NexusId::Starfield:
 				return std::vector<bsa_archive_type_e> { baFO4, baFO4dds };
+			case NexusId::Starfield:
+				return std::vector<bsa_archive_type_e> { baSF, baSFdds };
 			default:
 				return std::vector<bsa_archive_type_e> { baNone };
 		}
@@ -45,8 +46,10 @@ namespace BsaPacker
 			case baSSE:
 				return std::make_unique<GeneralArchiveBuilder>(this->m_ArchiveBuilderHelper, modDto->Directory(), archiveType);
 			case baFO4:
+			case baSF:
 				return std::make_unique<TexturelessArchiveBuilder>(this->m_ArchiveBuilderHelper, modDto->Directory(), archiveType);
 			case baFO4dds:
+			case baSFdds:
 				return std::make_unique<TextureArchiveBuilder>(this->m_ArchiveBuilderHelper, modDto->Directory(), archiveType);
 			case baNone:
 			default:

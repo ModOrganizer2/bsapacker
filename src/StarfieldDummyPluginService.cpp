@@ -14,11 +14,11 @@ namespace BsaPacker
 		const QString& archiveNameBase) const
 	{
 		const QString& fileNameNoExtension = modPath + '/' + archiveNameBase;
-		if (!this->m_DummyPluginLogic->canCreateDummyESL(fileNameNoExtension, bsa_archive_type_e::baFO4) && !this->m_DummyPluginLogic->canCreateDummyESL(fileNameNoExtension, bsa_archive_type_e::baFO4dds))
+		if (!this->m_DummyPluginLogic->canCreateDummyESL(fileNameNoExtension, bsa_archive_type_e::baSF) && !this->m_DummyPluginLogic->canCreateDummyESL(fileNameNoExtension, bsa_archive_type_e::baSFdds))
 		{
 			return false;
 		}
-		const std::string& absoluteFileName = fileNameNoExtension.toStdString() + ".esl";
+		const std::string& absoluteFileName = fileNameNoExtension.toStdString() + ".esm";
 		return this->m_FileWriterService->Write(absoluteFileName,
 			reinterpret_cast<const char*>(StarfieldDummyPluginService::RAW_STARFIELD),
 			sizeof(StarfieldDummyPluginService::RAW_STARFIELD));
