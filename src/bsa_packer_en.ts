@@ -4,13 +4,13 @@
 <context>
     <name>BsaPacker::Bsa_Packer</name>
     <message>
-        <location filename="BsaPacker.cpp" line="46"/>
-        <location filename="BsaPacker.cpp" line="61"/>
+        <location filename="BsaPacker.cpp" line="47"/>
+        <location filename="BsaPacker.cpp" line="62"/>
         <source>Transform loose files into a Bethesda Softworks Archive file (.bsa/.ba2).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="BsaPacker.cpp" line="71"/>
+        <location filename="BsaPacker.cpp" line="72"/>
         <source>BSA Packer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -18,22 +18,22 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="BsaPackerWorker.cpp" line="41"/>
+        <location filename="BsaPackerWorker.cpp" line="43"/>
         <source>Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ModDtoFactory.cpp" line="54"/>
+        <location filename="ModDtoFactory.cpp" line="58"/>
         <source>Archive name (no file extension):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ModDtoFactory.cpp" line="77"/>
+        <location filename="ModDtoFactory.cpp" line="87"/>
         <source>File &quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ModDtoFactory.cpp" line="77"/>
+        <location filename="ModDtoFactory.cpp" line="87"/>
         <source>&quot; already exists. Overwrite?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -53,18 +53,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SettingsService.cpp" line="11"/>
+        <location filename="SettingsService.cpp" line="12"/>
         <source>After creating the archive, set loose assets to hidden.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SettingsService.cpp" line="12"/>
+        <location filename="SettingsService.cpp" line="13"/>
         <source>Create a dummy plugin to load the archive if one does not exist.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="SettingsService.cpp" line="13"/>
+        <location filename="SettingsService.cpp" line="14"/>
         <source>Specify a semi-colon seperated list of file extensions to ignore when packing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="SettingsService.cpp" line="15"/>
+        <source>Compress archives if they do not contain incompressible files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
