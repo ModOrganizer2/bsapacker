@@ -1,0 +1,21 @@
+{
+  "default-registry": {
+    "kind": "git",
+    "repository": "https://github.com/Microsoft/vcpkg",
+    "baseline": "f61a294e765b257926ae9e9d85f96468a0af74e7"
+  },
+  "registries": [
+    {
+      "kind": "git",
+      "repository": "https://github.com/Microsoft/vcpkg",
+      "baseline": "f61a294e765b257926ae9e9d85f96468a0af74e7",
+      "packages": ["boost*", "boost-*", "bext-*"]
+    },
+    {
+      "kind": "git",
+      "repository": "https://github.com/ModOrganizer2/vcpkg-registry",
+      "baseline": "3708a2a58c889b0e9bd104f5c56a19c64217dc3d",
+      "packages": ["mo2-*"]
+    }
+  ]
+}
