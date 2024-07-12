@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
+set(MO2_CMAKE_DEPRECATED_UIBASE_INCLUDE ON)
+
 project(bsa_packer)
 
 add_subdirectory(src)
