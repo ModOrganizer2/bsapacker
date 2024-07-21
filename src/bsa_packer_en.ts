@@ -18,11 +18,6 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="BsaPackerWorker.cpp" line="43"/>
-        <source>Created</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="ModDtoFactory.cpp" line="58"/>
         <source>Archive name (no file extension):</source>
         <translation type="unfinished"></translation>
@@ -80,6 +75,11 @@
     <message>
         <location filename="ArchiveAutoService.cpp" line="15"/>
         <source>Writing %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="BsaPackerWorker.cpp" line="53"/>
+        <source>Created archive(s):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
