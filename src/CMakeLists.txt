@@ -21,3 +21,5 @@ install(FILES $<TARGET_FILE:Qt6::Concurrent> DESTINATION bin/dlls)
 # this is done by modorganizer itself now
 #
 # install(FILES $<TARGET_FILE:mo2::libbsarch> DESTINATION bin/dlls)
+
+mo2_install_plugin(bsa_packer)
